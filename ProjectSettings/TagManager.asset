@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ledge
   layers:
   - Default
   - TransparentFX
@@ -11,6 +12,12 @@ TagManager:
   - 
   - Water
   - UI
+  - IsPlayer
+  - 
+  - 
+  - IsWall
+  - IsGround
+  - IsLedge
   - 
   - 
   - 
@@ -19,13 +26,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - postProcessing
   - 
   - 
   - 
