@@ -63,7 +63,6 @@ namespace FPSController
 
         void Update()
         {
-            #region Climb control
             if (wallClimbEnabled)
             {
                 //Conditions for allowing player climb. If they are facing a surface, moving forward, mantle conditions haven't been met,
@@ -99,9 +98,7 @@ namespace FPSController
             //Checks if they are facing the wall, holding forwards, and falling.
             if (isFacingSomething && fpsController.m_finalMoveVector.y < -.5f && fpsController.m_inputVector.y > 0)
                 fpsController.m_finalMoveVector.y = -4;
-            #endregion
             
-            #region Mantle control
             if (mantleEnabled)
             {
                 //If climb conditions are met, checks if head raycast hits. If not it means there is a mantleable ledge.
@@ -126,17 +123,13 @@ namespace FPSController
                 else
                     isMantling = false;
             }
-            #endregion
 
-            #region Wall jump control
             if (wallJumpEnabled)
                 //If the player is climbing, facing the wall, and not grounded, then they press jump key and jump off the wall.
                 if (isClimbing || isFacingSomething && !fpsController.m_isGrounded)
                     if (Input.GetKeyDown(KeyCode.Space))
                         StartCoroutine(JumpOffWall());
-            #endregion
 
-            #region Climb timer control
             //If climb limit is reached and can't mantle, cancels climb.
             if (climbTimer > maxClimbTime)
                 if (headHasHit)
@@ -144,7 +137,6 @@ namespace FPSController
 
             if (fpsController.m_isGrounded)
                 climbTimer = 0;
-            #endregion
             
             CheckSurface();
             ClimbRaycasts();
@@ -196,7 +188,6 @@ namespace FPSController
 
         void ClimbRaycasts()
         {
-            #region Raycasts
             float playerHeight = characterController.height;
 
             //This one is to check if something is above the head but still grabbable.            
@@ -234,7 +225,6 @@ namespace FPSController
                 isFacingSomething = false;
             else
                 isFacingSomething = true;
-            #endregion
         }
 
         IEnumerator JumpOffWall()

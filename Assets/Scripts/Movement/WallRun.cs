@@ -56,7 +56,6 @@ namespace FPSController
             RaycastHit rightHit;
             RaycastHit leftHit;
 
-            #region Wall check raycasts
             //Right raycast checks if there is a wall to the immediate right of player. 
             //Gets the wall normal to calculate direction of wall jump.
             if (Physics.Raycast(transform.position, transform.right, out rightHit, .8f, ~ignoreLayer))
@@ -79,9 +78,7 @@ namespace FPSController
             }
             else
                 leftHasHit = false;
-            #endregion
 
-            #region WallRun Control
             //If player is grounded, moving forward, running, timer conditions met, and is not falling, they can wall run.
             if (!fpsController.m_isGrounded && fpsController.m_inputVector.y > 0.5f && isRunning &&
                 wallRunTimer <= maxWallRunTime && fpsController.m_finalMoveVector.y > -10)
@@ -95,7 +92,6 @@ namespace FPSController
             }
             else
                 StopWallRun();
-            #endregion
 
             if (isWallRunning && canWallJump)
             {

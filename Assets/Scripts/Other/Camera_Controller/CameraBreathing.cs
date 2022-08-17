@@ -4,7 +4,6 @@ namespace FPSController
 {
     public class CameraBreathing : MonoBehaviour
     {
-        #region Variables
         [Space, Header("Data")]
         [SerializeField] private PerlinNoiseData data = null;
 
@@ -16,9 +15,6 @@ namespace FPSController
         private PerlinNoiseScroller m_perlinNoiseScroller;
         private Vector3 m_finalRot;
         private Vector3 m_finalPos;
-        #endregion
-
-        #region BuiltIn Methods
 
         void Start()
         {
@@ -112,6 +108,5 @@ namespace FPSController
                 }
             }
         }
-        #endregion
     }
 }

@@ -6,24 +6,18 @@ namespace FPSController
 {
     public class CameraController : MonoBehaviour
     {
-        #region Variables
-        #region Data
         [Space, Header("Data")]
         [SerializeField] private CameraInputData cameraInputData = null;
 
         [Space, Header("Custom Classes")]
         [SerializeField] private CameraZoom cameraZoom = null;
         [SerializeField] private CameraSwaying cameraSway = null;
-        #endregion
 
-        #region Settings
         [Space, Header("Look Settings")]
         [SerializeField] private Vector2 sensitivity = Vector2.zero;
         [SerializeField] private Vector2 smoothAmount = Vector2.zero;
         [SerializeField] private Vector2 lookAngleMinMax = Vector2.zero;
-        #endregion
 
-        #region Private
         private float m_yaw;
         private float m_pitch;
         private float maxYaw;
@@ -40,8 +34,7 @@ namespace FPSController
         [Space(10), Header("Public for InputHandler")]
         private bool hasTurned;
         public bool isLookingAround;
-
-        #region Components   
+  
         private FirstPersonController fpsController;
         private WallClimb wallClimb;
         private Leaning leaning;
@@ -49,10 +42,6 @@ namespace FPSController
         private Slide slide;
         private Transform m_pitchTranform;
         private Camera m_cam;
-        #endregion
-        #endregion
-
-        #endregion
 
         void Awake()
         {
@@ -68,7 +57,6 @@ namespace FPSController
             ApplyRotation();
             CalculateRotation();
 
-            #region Wall Climb Control
             //Establishes look rotation lock when climbing or looking around. Creates min and max yaw so the 
             //camera can't turn too much away from the orginal direction.
             if (wallClimb.isClimbing || isLookingAround)
@@ -84,9 +72,7 @@ namespace FPSController
                 minYaw = m_desiredYaw - 100;
                 lockYaw = m_desiredYaw;
             }
-            #endregion
 
-            #region Wall Jump Control
             //Turns and adds slowing to rotation speed when jumping from wall.
             if (wallClimb.isPerformingWallJump)
             {
@@ -105,9 +91,7 @@ namespace FPSController
                 smoothAmount.y = 1000;
                 hasTurned = false;
             }
-            #endregion
 
-            #region Air Control
             //Changes the camera smoothing while not grounded. If the player is airborne, they turn slower.
             if (!fpsController.m_isGrounded)
             {
@@ -118,14 +102,11 @@ namespace FPSController
             {
                 smoothAmount.x = 1000;
                 smoothAmount.y = 1000;
-            }
-            #endregion            
+            }          
 
             HandleZoom();
         }
 
-        #region Custom Methods
-        #region Initial Values
         void GetComponents()
         {
             fpsController = GetComponentInParent<FirstPersonController>();
@@ -148,7 +129,6 @@ namespace FPSController
             cameraZoom.Init(m_cam, cameraInputData);
             cameraSway.Init(m_cam.transform);
         }
-        #endregion
 
         void CalculateRotation()
         {
@@ -194,6 +174,5 @@ namespace FPSController
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-        #endregion
     }
 }
