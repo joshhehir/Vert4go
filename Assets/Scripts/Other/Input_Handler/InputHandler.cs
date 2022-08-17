@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Unity.Collections;
+using TMPro;
 
 namespace FPSController
 {
@@ -27,10 +28,14 @@ namespace FPSController
         public float sprayRange;
         public AudioClip spraySFX;
         private AudioSource audioSource;
+        public int sprayAmount;
 
         [Space, Header("Input Data")]
         [SerializeField] private CameraInputData cameraInputData = null;
         [SerializeField] private MovementInputData movementInputData = null;
+
+        [Space, Header("UI")]
+        public TextMeshProUGUI text_sprays_remaining;
 
 
         void Awake()
@@ -116,16 +121,18 @@ namespace FPSController
 
         private void SprayControl()
         {
-            if (keyboard != null && keyboard.fKey.wasPressedThisFrame)
+            if (keyboard != null && keyboard.fKey.wasPressedThisFrame && sprayAmount != 0)
             {
-                Debug.Log("Spray was clicked");
+                //Debug.Log("Spray was clicked");
                 RaycastHit hit;
                 if(Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
                 {
                     Instantiate(spray, hit.point, cameraController.transform.rotation);
                     audioSource.PlayOneShot(spraySFX);
+                    sprayAmount--;
                 }
             }
+            text_sprays_remaining.SetText("Sprays Remaining: " + sprayAmount.ToString());
             Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
