@@ -4,7 +4,6 @@ namespace FPSController
 {
     public class HeadBob
     {
-        #region Variables
         HeadBobData m_data;
 
         float m_xScroll;
@@ -13,9 +12,7 @@ namespace FPSController
         bool m_resetted;
         Vector3 m_finalOffset;
         float m_currentStateHeight = 0f;
-        #endregion
 
-        #region Properties
         public Vector3 FinalOffset => m_finalOffset;
         public bool Resetted => m_resetted;
         public float CurrentStateHeight
@@ -23,9 +20,7 @@ namespace FPSController
             get => m_currentStateHeight;
             set => m_currentStateHeight = value;
         }
-        #endregion
 
-        #region Custom Methods
         //Takes into account multipliers and determines headbob. Has different specified values for different states, including running, 
         //moving backwards, sideways, or crouching.
         public HeadBob(HeadBobData _data, float _moveBackwardsMultiplier, float _moveSideMultiplier)
@@ -86,6 +81,5 @@ namespace FPSController
 
             m_finalOffset = Vector3.zero;
         }
-        #endregion
     }
 }

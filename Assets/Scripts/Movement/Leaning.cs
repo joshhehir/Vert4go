@@ -38,7 +38,6 @@ namespace FPSController
 
         void Update()
         {
-            #region Lean Control
             //If player is moving, cancels all leaning.
             if (firstPersonController.m_inputVector.x != 0 || firstPersonController.m_inputVector.y != 0)
             {
@@ -51,7 +50,6 @@ namespace FPSController
             //Resets lean rotation to zero if not leaning to either side.
             if (!isLeaningLeft && !isLeaningRight)
                 leanValue = Mathf.Lerp(leanValue, 0, leanSpeed * Time.deltaTime);
-            #endregion
 
             CheckCanLeanLeft();
             CheckCanLeanRight();

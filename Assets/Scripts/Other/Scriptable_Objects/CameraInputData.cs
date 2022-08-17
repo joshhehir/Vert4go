@@ -5,14 +5,11 @@ namespace FPSController
     [CreateAssetMenu(fileName = "CameraInputData", menuName = "FirstPersonController/Data/CameraInputData", order = 0)]
     public class CameraInputData : ScriptableObject
     {
-        #region Data
         Vector2 m_inputVector;
         bool m_isZooming;
         bool m_zoomClicked;
         bool m_zoomReleased;
-        #endregion
 
-        #region Properties
         public Vector2 InputVector => m_inputVector;
         //If there is value in the x axis it means the player is moving sideways.
         public float InputVectorX
@@ -43,9 +40,7 @@ namespace FPSController
             get => m_zoomReleased;
             set => m_zoomReleased = value;
         }
-        #endregion
 
-        #region Custom Methods
         public void ResetInput()
         {
             m_inputVector = Vector2.zero;
@@ -53,6 +48,5 @@ namespace FPSController
             m_zoomClicked = false;
             m_zoomReleased = false;
         }
-        #endregion
     }
 }

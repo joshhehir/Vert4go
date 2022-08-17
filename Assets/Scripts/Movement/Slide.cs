@@ -70,7 +70,6 @@ namespace FPSController
 
             moveDirNormal = fpsController.m_finalMoveDir.normalized;
 
-            #region Slide Conditions
             if (timeSinceLastSlide > slideCooldown && !isCrouching && movementInputData.IsRunning &&
                 fpsController.m_isGrounded && !isUphill && fpsController.m_inputVector.y > 0)
             {
@@ -81,9 +80,6 @@ namespace FPSController
             else
                 canSlide = false;
 
-            #endregion
-
-            #region Cancel Slide
             //Conditions to cancel slide. This includes maxSlideTime being reached, being off the ground, or moving slowly.
             if (isSliding)
             {
@@ -101,7 +97,6 @@ namespace FPSController
                     maxSlideTime = defaultSlideTimerMax;
                 }
             }
-            #endregion
 
             //Camera control limits look direction while sliding so player can't turn around.
             if (lockCameraWhenSliding)
@@ -192,7 +187,6 @@ namespace FPSController
                 hillCheckDistance = hillCheckHit.distance;
             }
 
-            #region Hill Conditions
             //Determines impact of slope angle. Limits the min and max of the slope factor so the player cannot exceed speeds.
             float slopeFactor = (slopeHeight * -100) / 10;
             if (slopeFactor < 2.5f)
@@ -237,7 +231,6 @@ namespace FPSController
                 slideDir = new Vector3(moveDirNormal.x * 4, -1f, moveDirNormal.z * 4);
                 fpsController.stickToGroundForce = 1;
             }
-            #endregion
         }
 
         //Coroutine is needed so the grounded condition does not overlap jumpedFromSlide.

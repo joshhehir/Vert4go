@@ -7,16 +7,10 @@ namespace FPSController
     [RequireComponent(typeof(CharacterController))]
     public class FirstPersonController : MonoBehaviour
     {
-        #region Variables
-        #region Private Serialized     
-        #region Data
         [Space, Header("Data")]
         [SerializeField] public MovementInputData movementInputData = null;
         [SerializeField] public HeadBobData headBobData = null;
 
-        #endregion
-
-        #region Locomotion
         [Space, Header("Locomotion Settings")]
         [SerializeField] private float crouchSpeed = 1f;
         [SerializeField] private float walkSpeed = 2f;
@@ -24,39 +18,29 @@ namespace FPSController
         [SerializeField] public float jumpSpeed = 8f;
         [Range(0f, 1f)] [SerializeField] private float moveBackwardsSpeedPercent = 0.5f;
         [Range(0f, 1f)] [SerializeField] private float moveSideSpeedPercent = 0.75f;
-        #endregion
 
-        #region Run Settings
         [Space, Header("Run Settings")]
         [Range(-1f, 1f)] [SerializeField] private float canRunThreshold = 0.8f;
         [SerializeField] private AnimationCurve runTransitionCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-        #endregion
 
-        #region Crouch Settings
         [Space, Header("Crouch Settings")]
         [Range(0.2f, 0.9f)] [SerializeField] private float crouchPercent = 0.6f;
         [SerializeField] private float crouchTransitionDuration = 1f;
         [SerializeField] private AnimationCurve crouchTransitionCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-        #endregion
 
-        #region Landing Settings
         [Space, Header("Landing Settings")]
         [Range(0.05f, 0.5f)] [SerializeField] private float lowLandAmount = 0.1f;
         [Range(0.2f, .9f)] [SerializeField] private float highLandAmount = 0.6f;
         [SerializeField] private float landTimer = 0.5f;
         [SerializeField] private float landDuration = 1f;
         [SerializeField] private AnimationCurve landCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-        #endregion
 
-        #region Extra Jump Settings
         [Space, Header("Extra Jump Settings")]
         [Range(0.1f, 1f)] [SerializeField] private float extraJumpStrength = .8f;
         [SerializeField] private int numberOfJumps = 1;
         private float defaultJumpSpeed;
         private int jumpCount;
-        #endregion
 
-        #region Gravity
         [Space, Header("Gravity Settings")]
         [SerializeField] public float gravityMultiplier = 2.5f;
         [SerializeField] public float stickToGroundForce = 5f;
@@ -64,17 +48,12 @@ namespace FPSController
         [SerializeField] private LayerMask groundLayer = ~0;
         [Range(0f, 1f)] [SerializeField] private float rayLength = 0.1f;
         [Range(0.01f, 1f)] [SerializeField] private float raySphereRadius = 0.1f;
-        #endregion
 
-        #region Wall Settings
         [Space, Header("Check Wall Settings")]
         [SerializeField] private LayerMask obstacleLayers = ~0;
         [Range(0f, 1f)] [SerializeField] private float rayObstacleLength = 0.1f;
         [Range(0.01f, 1f)] [SerializeField] private float rayObstacleSphereRadius = 0.1f;
 
-        #endregion
-
-        #region Smooth Settings
         [Space, Header("Smooth Settings")]
         [Range(1f, 100f)] [SerializeField] private float smoothRotateSpeed = 25f;
         [Range(1f, 100f)] [SerializeField] private float smoothInputSpeed = 10f;
@@ -85,10 +64,6 @@ namespace FPSController
         private float defaultSmoothRotateSpeed;
         [Space]
 
-        #endregion
-        #endregion
-        #region Private Non-Serialized
-        #region Components / Custom Classes / Caches
         private CharacterController m_characterController;
         private Transform m_yawTransform;
         private Transform m_camTransform;
@@ -101,9 +76,7 @@ namespace FPSController
         private RaycastHit m_hitInfo;
         private IEnumerator m_CrouchRoutine;
         private IEnumerator m_LandRoutine;
-        #endregion
 
-        #region Grounded
         private RaycastHit groundDistanceHit;
         public GameObject groundCheck;
         public LayerMask ignoreLayer;
@@ -112,11 +85,7 @@ namespace FPSController
         [SerializeField] [ReadOnly] private bool m_previouslyGrounded;
 
         private float bounceFactor = 1;
-        #endregion
         
-
-
-        #region Debug
         [Space]
         [SerializeField] [ReadOnly] public Vector2 m_inputVector;
         [SerializeField] [ReadOnly] private Vector2 m_smoothInputVector;
@@ -150,12 +119,7 @@ namespace FPSController
         [SerializeField] [ReadOnly] private bool m_duringRunAnimation;
         [Space]
         [SerializeField] [ReadOnly] public float m_inAirTimer;
-        #endregion
-        #endregion
-
-        #endregion
-
-        #region BuiltIn Methods     
+    
         protected virtual void Start()
         {
             wallClimb = GetComponent<WallClimb>();
@@ -233,11 +197,8 @@ namespace FPSController
         {
             HandleCrouch();
         }
-        #endregion
 
-        #region Custom Methods
-        //For getting the initial values and components.  
-        #region Initialize Methods  
+        //For getting the initial values and components. 
         protected virtual void GetComponents()
         {
             m_characterController = GetComponent<CharacterController>();
@@ -272,10 +233,8 @@ namespace FPSController
 
             m_walkRunSpeedDifference = runSpeed - walkSpeed;
         }
-        #endregion
 
         //Smoothing added so movement is not jagged and instantaneous. Higher smoothing values mean slower build to new values.
-        #region Smoothing Methods
         protected virtual void SmoothInput()
         {
             m_inputVector = movementInputData.InputVector.normalized;
@@ -300,9 +259,7 @@ namespace FPSController
             m_smoothFinalMoveDir = Vector3.Lerp(m_smoothFinalMoveDir, m_finalMoveDir, Time.deltaTime * smoothFinalDirectionSpeed);
             Debug.DrawRay(transform.position, m_smoothFinalMoveDir, Color.yellow);
         }
-        #endregion
 
-        #region Locomotion Calculation Methods
         //Is the player grounded? Sends a spherecast downwards and checks hits on the 
         //ground layer to determine if the player is touching the ground.
         protected virtual void CheckIfGrounded()
@@ -409,9 +366,7 @@ namespace FPSController
             if (m_characterController.isGrounded)
                 m_finalMoveVector.y += _finalVector.y;
         }
-        #endregion
 
-        #region Crouching Methods
         //Checks if player pressed crouch button and starts crouch routine.
         protected virtual void HandleCrouch()
         {
@@ -474,10 +429,8 @@ namespace FPSController
             }
 
             m_duringCrouchAnimation = false;
-        }
-        #endregion        
+        }    
 
-        #region Landing Methods
         //These methods determine player land speed and the impact to be placed on the camera.
         //Takes into account falling speed and inAirTimer to determine the impact on the camera when hitting the ground.
         protected virtual void HandleLanding()
@@ -518,9 +471,7 @@ namespace FPSController
                 yield return null;
             }
         }
-        #endregion
 
-        #region Locomotion Apply Methods
         protected virtual void HandleHeadBob()
         {
             //If moving in some way
@@ -639,7 +590,5 @@ namespace FPSController
             yield return new WaitForSeconds(.5f);
             m_cameraController.enabled = true;
         }
-        #endregion
-        #endregion
     }
 }

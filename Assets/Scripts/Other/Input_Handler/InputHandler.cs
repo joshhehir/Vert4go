@@ -22,23 +22,16 @@ namespace FPSController
         bool isLookingAround;
         bool isMoving;
 
-        #region Spray
         [Header("Spray")]
         public GameObject spray;
         public float sprayRange;
         public AudioClip spraySFX;
         private AudioSource audioSource;
-        #endregion
 
-
-
-        #region Data
         [Space, Header("Input Data")]
         [SerializeField] private CameraInputData cameraInputData = null;
         [SerializeField] private MovementInputData movementInputData = null;
-        #endregion
 
-        #region BuiltIn Methods
 
         void Awake()
         {
@@ -102,9 +95,7 @@ namespace FPSController
             else
                 ZoomHold();
         }
-        #endregion
 
-        #region Input Methods
         //Unfortunately, crouch, jump and zoom bindings still need to be altered in script instead of through the new input system 
         //because context.started != GetButtonDown and they rely on specific frame timing.
         public void JumpControl()
@@ -138,7 +129,6 @@ namespace FPSController
             Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
-        #region ZoomControl
         public void ZoomToggle()
         {
             if (gamepad != null && gamepad.rightStickButton.wasPressedThisFrame || keyboard != null && keyboard.zKey.wasPressedThisFrame)
@@ -159,9 +149,7 @@ namespace FPSController
             else
                 cameraInputData.ZoomReleased = false;
         }
-        #endregion
 
-        #region RunControl
         public void RunToggle(InputAction.CallbackContext context)
         {
             if (context.started)
@@ -183,7 +171,6 @@ namespace FPSController
             else
                 movementInputData.RunHeld = false;
         }
-        #endregion
 
         public void MovementControl(InputAction.CallbackContext context)
         {
@@ -288,6 +275,5 @@ namespace FPSController
 
             playerControls.Player.Dodge.performed += DodgeInput;          
         }
-        #endregion
     }
 }

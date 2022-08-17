@@ -5,7 +5,6 @@ namespace FPSController
     [System.Serializable]
     public class CameraSwaying
     {
-        #region Variables
         [Space, Header("Sway Settings")]
         [SerializeField] private float swayAmount = 0f;
         [SerializeField] private float swaySpeed = 0f;
@@ -14,7 +13,6 @@ namespace FPSController
 
         [SerializeField] private AnimationCurve swayCurve = new AnimationCurve();
 
-        #region Private
         private Transform m_camTransform;
         private float _scrollSpeed;
 
@@ -22,10 +20,7 @@ namespace FPSController
         private float m_xAmountPreviousFrame;
 
         private bool m_diffrentDirection;
-        #endregion
-        #endregion
 
-        #region Custom Methods
         public void Init(Transform _cam)
         {
             m_camTransform = _cam;
@@ -72,6 +67,5 @@ namespace FPSController
 
             m_xAmountPreviousFrame = m_xAmountThisFrame;
         }
-        #endregion
     }
 }
