@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using Unity.Collections;
 
 namespace FPSController
 {
@@ -19,6 +21,16 @@ namespace FPSController
         [SerializeField] private bool toggleZoom;
         bool isLookingAround;
         bool isMoving;
+
+        #region Spray
+        [Header("Spray")]
+        public GameObject spray;
+        public float sprayRange;
+        public AudioClip spraySFX;
+        private AudioSource audioSource;
+        #endregion
+
+
 
         #region Data
         [Space, Header("Input Data")]
@@ -42,7 +54,8 @@ namespace FPSController
         void Start()
         {
             cameraInputData.ResetInput();
-            movementInputData.ResetInput();            
+            movementInputData.ResetInput();
+            audioSource = GetComponent<AudioSource>();
         }
 
         void Update()
@@ -83,6 +96,7 @@ namespace FPSController
 
             JumpControl();
             CrouchControl();
+            SprayControl();
             if (toggleZoom)
                 ZoomToggle();
             else
@@ -107,6 +121,21 @@ namespace FPSController
                 movementInputData.CrouchClicked = true;
             else
                 movementInputData.CrouchClicked = false;
+        }
+
+        private void SprayControl()
+        {
+            if (keyboard != null && keyboard.fKey.wasPressedThisFrame)
+            {
+                Debug.Log("Spray was clicked");
+                RaycastHit hit;
+                if(Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
+                {
+                    Instantiate(spray, hit.point, cameraController.transform.rotation);
+                    audioSource.PlayOneShot(spraySFX);
+                }
+            }
+            Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
         #region ZoomControl

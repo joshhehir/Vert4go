@@ -420,6 +420,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggleRun: 1
   toggleZoom: 0
+  spray: {fileID: 6800284933835892682, guid: 304c38d43b4b4004389fcf91325420ca, type: 3}
+  sprayRange: 5
   cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
   movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
 --- !u!114 &5904583132571519024
