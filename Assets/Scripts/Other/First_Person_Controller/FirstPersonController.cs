@@ -113,6 +113,8 @@ namespace FPSController
 
         private float bounceFactor = 1;
         #endregion
+        
+
 
         #region Debug
         [Space]
