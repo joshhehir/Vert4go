@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Josh-Test.unity
+    guid: 981c0833db4a718448fadb9a604bcd92
+  - enabled: 1
+    path: Assets/Scenes/End-Scren.unity
+    guid: 4776d7b53816b974da136b59c8cbf312
   m_configObjects: {}
