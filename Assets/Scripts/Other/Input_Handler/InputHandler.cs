@@ -132,7 +132,7 @@ namespace FPSController
                     sprayAmount--;
                 }
             }
-            text_sprays_remaining.SetText("Sprays Remaining: " + sprayAmount.ToString());
+            text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
             Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
