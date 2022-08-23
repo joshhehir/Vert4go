@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace FPSController
 {
@@ -52,7 +53,9 @@ namespace FPSController
         private bool feetHasHit;
         private bool surfaceCheck1HasHit;
         private bool surfaceCheck2HasHit;
-        private bool isFacingSomething;        
+        private bool isFacingSomething;
+
+        Keyboard keyboard;
 
         void Start()
         {
@@ -63,6 +66,7 @@ namespace FPSController
 
         void Update()
         {
+            keyboard = Keyboard.current;
             if (wallClimbEnabled)
             {
                 //Conditions for allowing player climb. If they are facing a surface, moving forward, mantle conditions haven't been met,
@@ -127,8 +131,11 @@ namespace FPSController
             if (wallJumpEnabled)
                 //If the player is climbing, facing the wall, and not grounded, then they press jump key and jump off the wall.
                 if (isClimbing || isFacingSomething && !fpsController.m_isGrounded)
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    if (keyboard != null && keyboard.spaceKey.wasPressedThisFrame)
+                    {
                         StartCoroutine(JumpOffWall());
+                    }
+                    
 
             //If climb limit is reached and can't mantle, cancels climb.
             if (climbTimer > maxClimbTime)
