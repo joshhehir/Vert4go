@@ -121,7 +121,7 @@ namespace FPSController
 
         private void SprayControl()
         {
-            if (keyboard != null && keyboard.fKey.wasPressedThisFrame && sprayAmount != 0)
+            if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
             {
                 //Debug.Log("Spray was clicked");
                 RaycastHit hit;
