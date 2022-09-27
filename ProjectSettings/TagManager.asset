@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ledge
   - Camera Pivot
+  - Top
+  - Middle
+  - Lower
   layers:
   - Default
   - TransparentFX

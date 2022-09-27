@@ -102,7 +102,13 @@ namespace FPSController
             {
                 smoothAmount.x = 1000;
                 smoothAmount.y = 1000;
-            }          
+            }   
+            
+            if (GameManager.gameEnded)
+            {
+                this.enabled = false;
+                return;
+            }
 
             HandleZoom();
         }

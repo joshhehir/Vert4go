@@ -55,6 +55,12 @@ namespace FPSController
             CheckCanLeanRight();
             CheckCanLeanUp();
             CheckLeaning();
+
+            if (GameManager.gameEnded)
+            {
+                this.enabled = false;
+                return;
+            }
         }
 
         //New input system checks if lean left key is held down.
