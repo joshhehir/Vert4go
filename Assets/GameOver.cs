@@ -28,7 +28,7 @@ namespace FPSController
 
         public void MainMenuButton()
         {
-            //SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu");
             Debug.Log("Main Menu");
         }
 
