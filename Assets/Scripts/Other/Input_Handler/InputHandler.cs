@@ -130,6 +130,13 @@ namespace FPSController
                     Instantiate(spray, hit.point, cameraController.transform.rotation);
                     audioSource.PlayOneShot(spraySFX);
                     sprayAmount--;
+                    switch (hit.collider.gameObject.tag)
+                    {
+                        case "Top":
+                        case "Middle":
+                        case "Lower":
+
+                    }
                 }
             }
             text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
