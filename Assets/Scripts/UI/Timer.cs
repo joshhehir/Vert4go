@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FPSController
 {
@@ -29,7 +31,8 @@ namespace FPSController
             if (timeToDisplay < 0)
             {
                 timeToDisplay = 0;
-                SceneManager.LoadScene("End-Scren");
+                //SceneManager.LoadScene("End-Scren");
+                //GameManager.EndGame;
 
             }
             float minutes = Mathf.FloorToInt(timeToDisplay / 60);

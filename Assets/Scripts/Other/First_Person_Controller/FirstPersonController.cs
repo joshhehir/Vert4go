@@ -190,6 +190,12 @@ namespace FPSController
 
                 m_previouslyGrounded = m_isGrounded;
             }
+
+            if (GameManager.gameEnded)
+            {
+                this.enabled = false;
+                return;
+            }
         }
 
         //Crouch is in LateUpdate because of some weird behavior on certain builds. This makes it consistent.

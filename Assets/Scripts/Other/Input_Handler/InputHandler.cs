@@ -36,6 +36,9 @@ namespace FPSController
 
         [Space, Header("UI")]
         public TextMeshProUGUI text_sprays_remaining;
+        public TextMeshProUGUI textScore;
+
+        public static int Score;
 
 
         void Awake()
@@ -51,6 +54,7 @@ namespace FPSController
         
         void Start()
         {
+            Score = 0;
             cameraInputData.ResetInput();
             movementInputData.ResetInput();
             audioSource = GetComponent<AudioSource>();
@@ -99,6 +103,12 @@ namespace FPSController
                 ZoomToggle();
             else
                 ZoomHold();
+
+            if (GameManager.gameEnded)
+            {
+                this.enabled = false;
+                return;
+            }
         }
 
         //Unfortunately, crouch, jump and zoom bindings still need to be altered in script instead of through the new input system 
@@ -133,13 +143,21 @@ namespace FPSController
                     switch (hit.collider.gameObject.tag)
                     {
                         case "Top":
-                        case "Middle":
-                        case "Lower":
+                            Score += 5000;
+                            return;
 
+                        case "Middle":
+                            Score += 2500;
+                            return;
+
+                        case "Lower":
+                            Score += 1000;
+                            return;
                     }
                 }
             }
             text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
+            textScore.SetText("Score: " + Score.ToString());
             Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
