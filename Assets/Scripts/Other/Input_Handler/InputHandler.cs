@@ -36,6 +36,9 @@ namespace FPSController
 
         [Space, Header("UI")]
         public TextMeshProUGUI text_sprays_remaining;
+        public TextMeshProUGUI textScore;
+
+        public static int Score;
 
 
         void Awake()
@@ -51,6 +54,7 @@ namespace FPSController
         
         void Start()
         {
+            Score = 0;
             cameraInputData.ResetInput();
             movementInputData.ResetInput();
             audioSource = GetComponent<AudioSource>();
@@ -99,6 +103,12 @@ namespace FPSController
                 ZoomToggle();
             else
                 ZoomHold();
+
+            if (GameManager.gameEnded)
+            {
+                this.enabled = false;
+                return;
+            }
         }
 
         //Unfortunately, crouch, jump and zoom bindings still need to be altered in script instead of through the new input system 
@@ -121,7 +131,7 @@ namespace FPSController
 
         private void SprayControl()
         {
-            if (keyboard != null && keyboard.fKey.wasPressedThisFrame && sprayAmount != 0)
+            if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
             {
                 //Debug.Log("Spray was clicked");
                 RaycastHit hit;
@@ -130,9 +140,24 @@ namespace FPSController
                     Instantiate(spray, hit.point, cameraController.transform.rotation);
                     audioSource.PlayOneShot(spraySFX);
                     sprayAmount--;
+                    switch (hit.collider.gameObject.tag)
+                    {
+                        case "Top":
+                            Score += 5000;
+                            return;
+
+                        case "Middle":
+                            Score += 2500;
+                            return;
+
+                        case "Lower":
+                            Score += 1000;
+                            return;
+                    }
                 }
             }
             text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
+            textScore.SetText("Score: " + Score.ToString());
             Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
         }
 
