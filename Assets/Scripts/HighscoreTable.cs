@@ -15,6 +15,9 @@ namespace FPSController
 
         private void Awake()
         {
+            //Uncomment to clear the leaderboard
+            //PlayerPrefs.DeleteAll();
+
             entryContainer = transform.Find("highscoreEntryContainer");
             entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
@@ -22,17 +25,12 @@ namespace FPSController
 
             string jsonString = PlayerPrefs.GetString("highscoreTable");
             Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+            //highscores = null;
 
             if (highscores == null)
             {
-                // There's no stored table, initialize
-                Debug.Log("Initializing table with default values...");
-                AddHighscoreEntry(1000000, "CMK");
-                AddHighscoreEntry(897621, "JOE");
-                AddHighscoreEntry(872931, "DAV");
-                AddHighscoreEntry(785123, "CAT");
-                AddHighscoreEntry(542024, "MAX");
-                AddHighscoreEntry(68245, "AAA");
+                AddHighscoreEntry(1000, "JOSH");
+               
                 // Reload
                 jsonString = PlayerPrefs.GetString("highscoreTable");
                 highscores = JsonUtility.FromJson<Highscores>(jsonString);
