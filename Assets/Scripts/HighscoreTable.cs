@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,18 +22,27 @@ namespace FPSController
 
             entryTemplate.gameObject.SetActive(false);
 
+            //PlayerPrefs.DeleteKey("highscoreTable");
             string jsonString = PlayerPrefs.GetString("highscoreTable");
             Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-            //highscores = null;
 
             if (highscores == null)
             {
-                AddHighscoreEntry(1000, "JOSH");
-               
+                // There's no stored table, initialize
+                Debug.Log("Initializing table with default values...");
+                AddHighscoreEntry(1000, "JSH");
                 // Reload
                 jsonString = PlayerPrefs.GetString("highscoreTable");
                 highscores = JsonUtility.FromJson<Highscores>(jsonString);
             }
+
+            RefreshHighscoreTable();
+        }
+
+        private void RefreshHighscoreTable()
+        {
+            string jsonString = PlayerPrefs.GetString("highscoreTable");
+            Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
             // Sort entry list by Score
             for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
@@ -48,6 +56,14 @@ namespace FPSController
                         highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
                         highscores.highscoreEntryList[j] = tmp;
                     }
+                }
+            }
+
+            if (highscoreEntryTransformList != null)
+            {
+                foreach (Transform highscoreEntryTransform in highscoreEntryTransformList)
+                {
+                    Destroy(highscoreEntryTransform.gameObject);
                 }
             }
 
@@ -101,7 +117,7 @@ namespace FPSController
             transformList.Add(entryTransform);
         }
 
-        private void AddHighscoreEntry(int score, string name)
+        public void AddHighscoreEntry(int score, string name)
         {
             // Create HighscoreEntry
             HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
@@ -126,6 +142,8 @@ namespace FPSController
             string json = JsonUtility.ToJson(highscores);
             PlayerPrefs.SetString("highscoreTable", json);
             PlayerPrefs.Save();
+
+            RefreshHighscoreTable();
         }
 
         private class Highscores
@@ -142,4 +160,3 @@ namespace FPSController
 
     }
 }
-
