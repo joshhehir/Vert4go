@@ -38,7 +38,7 @@ namespace FPSController
         public TextMeshProUGUI text_sprays_remaining;
         public TextMeshProUGUI textScore;
 
-        public static int Score;
+        public int Score;
 
 
         void Awake()

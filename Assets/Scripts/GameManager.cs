@@ -18,10 +18,19 @@ namespace FPSController
 
         public float timeValue;
         [SerializeField] TextMeshProUGUI time_remaining;
+        private HighscoreTable highscoreTable;
+        private InputHandler inputHandler;
+
+
+        private void Awake()
+        {
+            inputHandler = GetComponentInChildren<InputHandler>();
+        }
 
         // Start is called before the first frame update
         void Start()
         {
+
             gameEnded = false;
         }
 
@@ -60,10 +69,16 @@ namespace FPSController
 
         public void EndGame()
         {
-            gameEnded = true;
-            gameOverUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            //int score;
+
+            InputWindow.Show_Static("Player Name", "", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYWZ", 3, () => { }, (string nameText) => 
+            highscoreTable.AddHighscoreEntry(inputHandler.Score, nameText)); 
+
+            gameEnded = true;
+            gameOverUI.SetActive(true);
+            
         }
 
         public void SetPause(bool paused)
