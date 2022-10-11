@@ -78,7 +78,7 @@ namespace FPSController
             instance.Show(titleString, inputString, validCharacters, characterLimit, onCancel, onOk);
         }
 
-        public static void Show_Static(string titleString, int defaultInt, Action onCancel, Action<int> onOk)
+       /* public static void Show_Static(string titleString, int defaultInt, Action onCancel, Action<int> onOk)
         {
             instance.Show(titleString, defaultInt.ToString(), "0123456789-", 10, onCancel,
                 (string inputText) => {
@@ -93,7 +93,7 @@ namespace FPSController
                     }
                 }
             );
-        }
+        }*/
     }
 }
 
