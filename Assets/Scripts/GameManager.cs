@@ -16,6 +16,7 @@ namespace FPSController
         public static event Action<bool> Pause;
 
         public GameObject gameOverUI;
+        public GameObject backgroundUI;
 
         public float timeValue;
         [SerializeField] TextMeshProUGUI time_remaining;
@@ -86,11 +87,12 @@ namespace FPSController
                 Debug.Log(nameText);
                 //highscoreTable.AddHighscoreEntry(InputHandler.Score, nameText);
                 score.SaveHighScore(InputHandler.Score, nameText);
+                
+                gameOverUI.SetActive(true);
             });
-            
-
+            backgroundUI.SetActive(true);
             gameEnded = true;
-            gameOverUI.SetActive(true);
+            //gameOverUI.SetActive(true);
             
         }
 
