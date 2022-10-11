@@ -9,10 +9,11 @@ namespace FPSController
 {
     public class GameManager : MonoBehaviour
     {
+        public ScoreScriptableObject score;
+
         public static bool gameEnded;
         public bool IsPaused { get; private set; }
         public static event Action<bool> Pause;
-
 
         public GameObject gameOverUI;
 
@@ -20,11 +21,14 @@ namespace FPSController
         [SerializeField] TextMeshProUGUI time_remaining;
         private HighscoreTable highscoreTable;
         private InputHandler inputHandler;
+        private GameManager gameManager;
+        private static string nameText;
 
 
         private void Awake()
         {
             inputHandler = GetComponentInChildren<InputHandler>();
+            gameManager = GetComponentInChildren<GameManager>();
         }
 
         // Start is called before the first frame update
@@ -73,8 +77,17 @@ namespace FPSController
             Cursor.visible = true;
             //int score;
 
-            InputWindow.Show_Static("Player Name", "", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYWZ", 3, () => { }, (string nameText) => 
-            highscoreTable.AddHighscoreEntry(inputHandler.Score, nameText)); 
+            InputWindow.Show_Static("Player Name", "", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYWZ", 3, () =>
+            {
+
+            }, (nameText) =>
+            {
+                // OK
+                Debug.Log(nameText);
+                //highscoreTable.AddHighscoreEntry(InputHandler.Score, nameText);
+                score.SaveHighScore(InputHandler.Score, nameText);
+            });
+            
 
             gameEnded = true;
             gameOverUI.SetActive(true);

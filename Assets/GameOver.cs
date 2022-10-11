@@ -9,16 +9,16 @@ namespace FPSController
     public class GameOver : MonoBehaviour
     {
         public TextMeshProUGUI textScore;
-        private InputHandler inputHandler;
+        //private InputHandler inputHandler;
 
-        private void Awake()
+        /*private void Awake()
         {
             inputHandler = GetComponentInChildren<InputHandler>();
-        }
+        }*/
 
         void OnEnable()
         {
-            textScore.text = "Score: " + inputHandler.Score.ToString();
+            textScore.text = "Score: " + InputHandler.Score.ToString();
         }
         public void RestartButton()
         {

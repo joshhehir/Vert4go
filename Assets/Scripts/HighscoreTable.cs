@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace FPSController
 {
     public class HighscoreTable : MonoBehaviour
     {
-
+        public ScoreScriptableObject score;
         private Transform entryContainer;
         private Transform entryTemplate;
         private List<Transform> highscoreEntryTransformList;
@@ -16,7 +17,7 @@ namespace FPSController
         {
             //Uncomment to clear the leaderboard
             //PlayerPrefs.DeleteAll();
-
+            
             entryContainer = transform.Find("highscoreEntryContainer");
             entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
@@ -35,6 +36,12 @@ namespace FPSController
                 jsonString = PlayerPrefs.GetString("highscoreTable");
                 highscores = JsonUtility.FromJson<Highscores>(jsonString);
             }
+
+            foreach (Highscore s in score.highscores)
+            {
+                AddHighscoreEntry(s.playerScore, s.playerName);
+            }
+            score.highscores.Clear();
 
             RefreshHighscoreTable();
         }
