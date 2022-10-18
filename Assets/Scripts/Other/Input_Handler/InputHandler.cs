@@ -48,6 +48,7 @@ namespace FPSController
             leaning = GetComponent<Leaning>();
             dodge = GetComponent<Dodge>();
             slide = GetComponent<Slide>();
+            movementInputData.ResetInput();
 
             InitialInput();
         }
@@ -56,7 +57,7 @@ namespace FPSController
         {
             Score = 0;
             cameraInputData.ResetInput();
-            movementInputData.ResetInput();
+            //movementInputData.ResetInput();
             audioSource = GetComponent<AudioSource>();
         }
 
@@ -185,7 +186,8 @@ namespace FPSController
         public void RunToggle(InputAction.CallbackContext context)
         {
             if (context.started)
-            {                
+            {
+                Debug.Log("RunToggle");
                 movementInputData.IsRunning = !movementInputData.IsRunning;
                 if (movementInputData.IsCrouching)
                     fpsController.InvokeCrouchRoutine();
@@ -196,6 +198,7 @@ namespace FPSController
         {
             if (context.performed)
             {
+                Debug.Log("RunHold");
                 movementInputData.RunHeld = true;
                 if (movementInputData.IsCrouching)
                     fpsController.InvokeCrouchRoutine();
