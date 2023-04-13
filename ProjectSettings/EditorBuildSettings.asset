@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Leaderboard.unity
     guid: 18cbff7e23e4e12448b0ce5ccdcb6879
+  - enabled: 1
+    path: Assets/Scenes/ChillCity.unity
+    guid: efb331a6e96a54e4f865d30e3f009523
   m_configObjects: {}
