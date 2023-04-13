@@ -141,18 +141,25 @@ namespace FPSController
                     Instantiate(spray, hit.point, cameraController.transform.rotation);
                     audioSource.PlayOneShot(spraySFX);
                     sprayAmount--;
+                    float hitHeight = hit.point.y;
+                    int hitHeightInt = Mathf.RoundToInt(hitHeight);
                     switch (hit.collider.gameObject.tag)
                     {
                         case "Top":
-                            Score += 5000;
+                            Score += hitHeightInt *= 40;
                             return;
 
                         case "Middle":
-                            Score += 2500;
+                            Score += hitHeightInt *= 20;
                             return;
 
                         case "Lower":
-                            Score += 1000;
+                            Score += 10;
+                            Score += hitHeightInt *= 10;
+                            return;
+
+                        case "Special":
+                            Score += hitHeightInt *= 100;
                             return;
                     }
                 }
