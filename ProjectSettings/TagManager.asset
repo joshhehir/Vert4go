@@ -9,6 +9,7 @@ TagManager:
   - Top
   - Middle
   - Lower
+  - Special
   layers:
   - Default
   - TransparentFX

@@ -325,9 +325,17 @@ CharacterController:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7252742857052388525}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Height: 1.8
   m_Radius: 0.4
   m_SlopeLimit: 70
@@ -449,12 +457,12 @@ MonoBehaviour:
   stickToGroundForce: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 1
   rayLength: 0.1
   raySphereRadius: 0.2
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 513
+    m_Bits: 1
   rayObstacleLength: 0.4
   rayObstacleSphereRadius: 0.2
   smoothRotateSpeed: 25
@@ -465,7 +473,7 @@ MonoBehaviour:
   groundCheck: {fileID: 5904583131555830488}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 166
+    m_Bits: 38
   distanceToGround: 0
   m_isGrounded: 0
   m_previouslyGrounded: 0
@@ -508,9 +516,14 @@ MonoBehaviour:
   sprayRange: 5
   spraySFX: {fileID: 0}
   sprayAmount: 0
+  topSprayMat: {fileID: 0}
+  midSprayMat: {fileID: 0}
+  botSprayMat: {fileID: 0}
+  specSprayMat: {fileID: 0}
   cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
   movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
   text_sprays_remaining: {fileID: 0}
+  textScore: {fileID: 0}
 --- !u!114 &5904583132571519024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +558,7 @@ MonoBehaviour:
   surfaceCheckGuide2: {fileID: 2417462144152872415}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 246
+    m_Bits: 54
   maxClimbTime: 2
   climbSpeed: 4.5
   mantleSpeed: 6
@@ -590,10 +603,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 246
+    m_Bits: 54
   speedFactor: 5
   heightFactor: 5
   maxWallRunTime: 2
+  wallStickyness: 0.8
   wallJumpDistance: 50
   wallJumpHeight: 10
   wallJumpCooldown: 0.5
@@ -630,6 +644,7 @@ GameObject:
   - component: {fileID: 7252742857163636787}
   - component: {fileID: 7252742857163636788}
   - component: {fileID: 6362164531770582227}
+  - component: {fileID: 2692069773568638402}
   m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -666,9 +681,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -746,6 +769,50 @@ MonoBehaviour:
   wallRunActive: 1
   slideActive: 1
   dodgeActive: 1
+--- !u!114 &2692069773568638402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252742857163636786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &7252742858000310521
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +837,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7252742858000310521}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalPosition: {x: 0, y: 2.025, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

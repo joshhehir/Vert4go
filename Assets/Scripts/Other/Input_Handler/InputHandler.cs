@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Unity.Collections;
@@ -29,6 +30,10 @@ namespace FPSController
         public AudioClip spraySFX;
         private AudioSource audioSource;
         public int sprayAmount;
+        public GameObject topSprayMat;
+        public GameObject midSprayMat;
+        public GameObject botSprayMat;
+        public GameObject specSprayMat;
 
         [Space, Header("Input Data")]
         [SerializeField] private CameraInputData cameraInputData = null;
@@ -52,7 +57,7 @@ namespace FPSController
 
             InitialInput();
         }
-        
+
         void Start()
         {
             Score = 0;
@@ -112,7 +117,7 @@ namespace FPSController
             }
         }
 
-        //Unfortunately, crouch, jump and zoom bindings still need to be altered in script instead of through the new input system 
+        //Unfortunately, crouch, jump and zoom bindings still need to be altered in script instead of through the new input system
         //because context.started != GetButtonDown and they rely on specific frame timing.
         public void JumpControl()
         {
@@ -138,7 +143,10 @@ namespace FPSController
                 RaycastHit hit;
                 if(Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
                 {
-                    Instantiate(spray, hit.point, cameraController.transform.rotation);
+                    GameObject newSpray = Instantiate(spray, hit.point, cameraController.transform.rotation);
+                    Debug.Log(newSpray.ToString());
+                    DecalProjector dP = newSpray.GetComponent<DecalProjector>();
+                      Debug.Log(dP);
                     audioSource.PlayOneShot(spraySFX);
                     sprayAmount--;
                     float hitHeight = hit.point.y;
@@ -147,19 +155,23 @@ namespace FPSController
                     {
                         case "Top":
                             Score += hitHeightInt *= 40;
+                            spray = topSprayMat;
                             return;
 
                         case "Middle":
                             Score += hitHeightInt *= 20;
+                            spray = midSprayMat;
                             return;
 
                         case "Lower":
                             Score += 10;
                             Score += hitHeightInt *= 10;
+                            spray = botSprayMat;
                             return;
 
                         case "Special":
                             Score += hitHeightInt *= 100;
+                            spray = specSprayMat;
                             return;
                     }
                 }
@@ -224,7 +236,7 @@ namespace FPSController
                 movementInputData.InputVectorY = inputVector.y;
             }
             else
-                isMoving = false;                
+                isMoving = false;
         }
 
         public void CameraControl(InputAction.CallbackContext context)
@@ -279,7 +291,7 @@ namespace FPSController
         }
 
         void InitialInput()
-        {              
+        {
             PlayerControls playerControls = new PlayerControls();
             playerControls.Player.Enable();
 
@@ -315,7 +327,7 @@ namespace FPSController
             playerControls.Player.LeanUp.performed += UpLeanInput;
             playerControls.Player.LeanUp.canceled += UpLeanInput;
 
-            playerControls.Player.Dodge.performed += DodgeInput;          
+            playerControls.Player.Dodge.performed += DodgeInput;
         }
     }
 }

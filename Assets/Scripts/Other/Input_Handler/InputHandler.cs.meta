@@ -3,7 +3,17 @@ guid: 1d95a60a4f97dd8408e783d47bb78e25
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - spray: {instanceID: 0}
+  - spraySFX: {instanceID: 0}
+  - topSprayMat: {fileID: 2100000, guid: db4f49d7945def140800595c8da752a9, type: 2}
+  - midSprayMat: {fileID: 2100000, guid: fcc65f2a01b27eb459bb0bfa1bbc4af2, type: 2}
+  - botSprayMat: {fileID: 2100000, guid: 6ab55f58affd8cf4d9ad9d8a97d387f4, type: 2}
+  - specSprayMat: {fileID: 2100000, guid: 20c5474a5e7522d419e2d0c2bf46324b, type: 2}
+  - cameraInputData: {instanceID: 0}
+  - movementInputData: {instanceID: 0}
+  - text_sprays_remaining: {instanceID: 0}
+  - textScore: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

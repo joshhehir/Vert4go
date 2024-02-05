@@ -19,8 +19,9 @@ namespace FPSController
 
         [Space(10), Header("WallRun Settings")]
         [Range(1f, 100f)] [SerializeField] float speedFactor = 5f;
-        [Range(1f, 100f)] [SerializeField] float heightFactor = 5f;
+        [Range(1f, 100f)] [SerializeField] public float heightFactor = 5f;
         [Range(1f, 100f)] [SerializeField] float maxWallRunTime = 5f;
+        [Range(0f, 5f)] [SerializeField] float wallStickyness = .8f;
 
         [Space(10), Header("WallJump Settings")]
         [Range(1f, 100f)] [SerializeField] float wallJumpDistance = 50;
@@ -58,7 +59,7 @@ namespace FPSController
 
             //Right raycast checks if there is a wall to the immediate right of player. 
             //Gets the wall normal to calculate direction of wall jump.
-            if (Physics.Raycast(transform.position, transform.right, out rightHit, .8f, ~ignoreLayer))
+            if (Physics.Raycast(transform.position, transform.right, out rightHit, wallStickyness, ~ignoreLayer))
             {
                 rightHasHit = true;
                 leftHasHit = false;
@@ -69,7 +70,7 @@ namespace FPSController
                 rightHasHit = false;
             //Left raycast checks if there is a wall to the immediate left of player. 
             //Gets the wall normal to calculate direction of wall jump.
-            if (Physics.Raycast(transform.position, -transform.right, out leftHit, .8f, ~ignoreLayer))
+            if (Physics.Raycast(transform.position, -transform.right, out leftHit, wallStickyness, ~ignoreLayer))
             {
                 leftHasHit = true;
                 rightHasHit = false;
