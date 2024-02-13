@@ -136,50 +136,59 @@ namespace FPSController
         }
 
         private void SprayControl()
-        {
+{
             if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
-            {
-                //Debug.Log("Spray was clicked");
-                RaycastHit hit;
-                if(Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
-                {
-                    GameObject newSpray = Instantiate(spray, hit.point, cameraController.transform.rotation);
-                    Debug.Log(newSpray.ToString());
-                    DecalProjector dP = newSpray.GetComponent<DecalProjector>();
-                      Debug.Log(dP);
-                    audioSource.PlayOneShot(spraySFX);
-                    sprayAmount--;
-                    float hitHeight = hit.point.y;
-                    int hitHeightInt = Mathf.RoundToInt(hitHeight);
-                    switch (hit.collider.gameObject.tag)
-                    {
-                        case "Top":
-                            Score += hitHeightInt *= 40;
-                            spray = topSprayMat;
-                            return;
+        {
+                 //Debug.Log("Spray was clicked");
+                 RaycastHit hit;
+                 if (Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
+                 {
+                      DecalProjector dP;
+                        audioSource.PlayOneShot(spraySFX);
+                        sprayAmount--;
+                        float hitHeight = hit.point.y;
+                        int hitHeightInt = Mathf.RoundToInt(hitHeight);
+                        switch (hit.collider.gameObject.tag)
+                        {
+                            case "Top":
+                                Score += hitHeightInt *= 40;
+                                spray = topSprayMat;
+                                break;
 
-                        case "Middle":
-                            Score += hitHeightInt *= 20;
-                            spray = midSprayMat;
-                            return;
+                            case "Middle":
+                                Score += hitHeightInt *= 20;
+                                spray = midSprayMat;
+                                break;
 
-                        case "Lower":
-                            Score += 10;
-                            Score += hitHeightInt *= 10;
-                            spray = botSprayMat;
-                            return;
+                            case "Lower":
+                                Score += 10;
+                                Score += hitHeightInt *= 10;
+                                spray = botSprayMat;
+                                break;
 
-                        case "Special":
-                            Score += hitHeightInt *= 100;
-                            spray = specSprayMat;
-                            return;
+                            case "Special":
+                                Score += hitHeightInt *= 100;
+                                spray = specSprayMat;
+                                break;
+                        }
+                        
+                        // Calculate the rotation to align the decal projector with the wall surface
+                        Quaternion rotation = Quaternion.LookRotation(hit.normal, Vector3.up);
+                        
+                        // Flip the rotation horizontally by applying a rotation around the Y-axis
+                        rotation *= Quaternion.Euler(0, 180, 0);
+
+                        // Spawn the decal projector with the calculated rotation
+                        GameObject newSpray = Instantiate(spray, hit.point, rotation);
+                        
+                        dP = newSpray.GetComponent<DecalProjector>();
+                        Debug.Log(dP);
                     }
                 }
+                text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
+                textScore.SetText("Score: " + Score.ToString());
+                Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
             }
-            text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
-            textScore.SetText("Score: " + Score.ToString());
-            Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
-        }
 
         public void ZoomToggle()
         {

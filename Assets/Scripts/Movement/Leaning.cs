@@ -30,7 +30,7 @@ namespace FPSController
         {
             firstPersonController = GetComponent<FirstPersonController>();
             cameraController = GetComponentInChildren<CameraController>();
-            m_CameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+            m_CameraTransform = GameObject.FindGameObjectWithTag("mainCamera").transform;
 
             m_InitialPosition = m_CameraTransform.localPosition;
             m_InitialRotation = m_CameraTransform.localRotation;

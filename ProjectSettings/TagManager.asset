@@ -10,6 +10,7 @@ TagManager:
   - Middle
   - Lower
   - Special
+  - mainCamera
   layers:
   - Default
   - TransparentFX
