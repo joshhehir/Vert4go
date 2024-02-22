@@ -290,7 +290,7 @@ namespace FPSController
                 leaning.RightLeanInput();
             else
                 leaning.isLeaningRight = false;
-        }
+        }   
         void UpLeanInput(InputAction.CallbackContext context)
         {
             if (context.performed)

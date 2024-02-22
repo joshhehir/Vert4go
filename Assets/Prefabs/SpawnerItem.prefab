@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2790439168339696626}
+  - component: {fileID: 2220218796754632994}
+  - component: {fileID: 6020258446568345830}
   m_Layer: 0
   m_Name: SpawnerItem
   m_TagString: Untagged
@@ -29,5 +31,38 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2220218796754632994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886933326466730083}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6f56746bd2f9347a4f71534667faa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 0}
+  currentPrefab: 
+  prefab1: {fileID: 7252742857052388525, guid: 4eaf4a10acb77134cbb7f10d319e479b, type: 3}
+  prefab2: {fileID: 1351525359688574210, guid: 148aa4c74d1ca894293dd435e6cfba2b, type: 3}
+  prefab3: {fileID: 7252742857052388525, guid: b7ae517300e69864cb342535068ca962, type: 3}
+  prefab4: {fileID: 0}
+--- !u!114 &6020258446568345830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886933326466730083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c46a8f98d638d44195ed591c1473e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPrefabs: []
+  spawnPoint: {fileID: 0}
+  label: {fileID: 0}
