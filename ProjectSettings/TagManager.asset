@@ -11,6 +11,9 @@ TagManager:
   - Lower
   - Special
   - mainCamera
+  - Rail
+  - VerticalRail
+  - HorizontalRail
   layers:
   - Default
   - TransparentFX

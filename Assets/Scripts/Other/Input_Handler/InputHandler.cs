@@ -47,7 +47,7 @@ namespace FPSController
         public TMP_Text text_sprays_remaining;
         public TMP_Text textScore;
         public int Score = 0;
-
+        private int currentScore; // Track score during gameplay
 
         void Awake()
         {
@@ -57,7 +57,7 @@ namespace FPSController
             dodge = GetComponent<Dodge>();
             slide = GetComponent<Slide>();
             movementInputData.ResetInput();
-
+            LeanTween.reset();
             InitialInput();
         }
 
@@ -137,24 +137,24 @@ namespace FPSController
             else
                 movementInputData.CrouchClicked = false;
         }
-        
+
         public void SprayControl()
-{
-            if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
         {
-                 //Debug.Log("Spray was clicked");
-                 RaycastHit hit;
-                 if (Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
-                 {
-                      DecalProjector dP;
-                        audioSource.PlayOneShot(spraySFX);
-                        sprayAmount--;
-                        float hitHeight = hit.point.y;
-                        int hitHeightInt = Mathf.RoundToInt(hitHeight);
-                          int scoreIncrement = 0;
+            if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
+            {
+                //Debug.Log("Spray was clicked");
+                RaycastHit hit;
+                if (Physics.Raycast(cameraController.transform.position, cameraController.transform.forward, out hit, sprayRange))
+                {
+                    DecalProjector dP;
+                    audioSource.PlayOneShot(spraySFX);
+                    sprayAmount--;
+                    float hitHeight = hit.point.y;
+                    int hitHeightInt = Mathf.RoundToInt(hitHeight);
+                    int scoreIncrement = 0;
 
                     switch (hit.collider.gameObject.tag)
-                        {
+                    {
                         case "Top":
                             scoreIncrement = hitHeightInt * 40;
                             spray = topSprayMat;
@@ -178,21 +178,22 @@ namespace FPSController
 
                     // Calculate the rotation to align the decal projector with the wall surface
                     Quaternion rotation = Quaternion.LookRotation(hit.normal, Vector3.up);
-                        
-                        // Flip the rotation horizontally by applying a rotation around the Y-axis
-                        rotation *= Quaternion.Euler(0, 180, 0);
 
-                        // Spawn the decal projector with the calculated rotation
-                        GameObject newSpray = Instantiate(spray, hit.point, rotation);
-                        
-                        dP = newSpray.GetComponent<DecalProjector>();
-                        Debug.Log(dP);
-                    }
+                    // Flip the rotation horizontally by applying a rotation around the Y-axis
+                    rotation *= Quaternion.Euler(0, 180, 0);
+
+                    // Spawn the decal projector with the calculated rotation
+                    GameObject newSpray = Instantiate(spray, hit.point, rotation);
+
+                    dP = newSpray.GetComponent<DecalProjector>();
+                    Debug.Log(dP);
                 }
-                text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
-                textScore.SetText("Score: " + Score.ToString());
-                Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
             }
+            text_sprays_remaining.SetText("Sprays: " + sprayAmount.ToString());
+            textScore.SetText("Score: " + Score.ToString());
+            Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
+            finalScore = Score;
+        }
 
         private void UpdateScoreScrolling(int oldScore, int newScore)
         {
@@ -222,16 +223,16 @@ namespace FPSController
                 LeanTween.value(gameObject, 0f, 9f, totalDuration)
                     .setOnUpdate((float val) =>
                     {
-                // Show a random number between 0-9 during scrolling
-                int randomDigit = Random.Range(0, 10);
+                        // Show a random number between 0-9 during scrolling
+                        int randomDigit = Random.Range(0, 10);
                         char[] scoreArray = (prefix + textScore.text.Substring(prefix.Length)).ToCharArray();
                         scoreArray[index + prefix.Length] = randomDigit.ToString()[0];
                         textScore.SetText(new string(scoreArray));
                     })
                     .setOnComplete(() =>
                     {
-                // Once the scrolling ends, set the final digit to its target value
-                char[] scoreArray = (prefix + textScore.text.Substring(prefix.Length)).ToCharArray();
+                        // Once the scrolling ends, set the final digit to its target value
+                        char[] scoreArray = (prefix + textScore.text.Substring(prefix.Length)).ToCharArray();
                         scoreArray[index + prefix.Length] = endDigit.ToString()[0];
                         textScore.SetText(new string(scoreArray));
                     })
@@ -241,11 +242,20 @@ namespace FPSController
 
         public static int finalScore; // Static, accessible from anywhere
 
-        private void UpdateScore(int value)
+        private void UpdateScore(int score)
         {
-            finalScore = value; // Update score as needed
+            finalScore = currentScore; // Update score as needed
         }
 
+        public void SetFinalScore()
+        {
+            finalScore = currentScore; // Make sure finalScore is up-to-date
+        }
+
+        public int GetFinalScore()
+        {
+            return finalScore;
+        }
         public void ZoomToggle()
         {
             if (gamepad != null && gamepad.rightStickButton.wasPressedThisFrame || keyboard != null && keyboard.zKey.wasPressedThisFrame)
@@ -346,7 +356,7 @@ namespace FPSController
                 leaning.RightLeanInput();
             else
                 leaning.isLeaningRight = false;
-        }   
+        }
         void UpLeanInput(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -393,6 +403,11 @@ namespace FPSController
             playerControls.Player.LeanUp.canceled += UpLeanInput;
 
             playerControls.Player.Dodge.performed += DodgeInput;
+        }
+
+        public bool GetJumpInput()
+        {
+            return Input.GetButtonDown("Jump"); // Adjust as needed based on your input settings
         }
     }
 }

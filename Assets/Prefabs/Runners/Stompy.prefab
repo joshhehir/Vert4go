@@ -651,6 +651,7 @@ MonoBehaviour:
   movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
   text_sprays_remaining: {fileID: 1154780334238513978}
   textScore: {fileID: 8067998538664112475}
+  Score: 0
 --- !u!114 &5904583132571519024
 MonoBehaviour:
   m_ObjectHideFlags: 0

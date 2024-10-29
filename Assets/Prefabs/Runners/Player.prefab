@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 2953567644534012822}
   - component: {fileID: 153265142830627232}
   - component: {fileID: 7886847026625992844}
+  - component: {fileID: -4679556179994122314}
   - component: {fileID: 366198700248303546}
   - component: {fileID: 8489090150294391889}
   - component: {fileID: 2125170628007977228}
@@ -480,6 +481,26 @@ MonoBehaviour:
   m_duringCrouchAnimation: 0
   m_duringRunAnimation: 0
   m_inAirTimer: 0
+--- !u!114 &-4679556179994122314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351525359688574210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e294f9d6f4e8d964aa84f2a13b8be0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump: 0
+  input: {x: 0, y: 0, z: 0}
+  gravity: 9.8
+  onRail: 0
+  grindSpeed: 50
+  heightOffset: 1
+  lerpSpeed: 10
+  currentRailScript: {fileID: 0}
 --- !u!114 &366198700248303546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +527,7 @@ MonoBehaviour:
   movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
   text_sprays_remaining: {fileID: 6599950631923761002}
   textScore: {fileID: 802190847022199882}
+  Score: 0
 --- !u!114 &8489090150294391889
 MonoBehaviour:
   m_ObjectHideFlags: 0

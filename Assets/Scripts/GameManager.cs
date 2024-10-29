@@ -22,20 +22,16 @@ namespace FPSController
         [SerializeField] TextMeshProUGUI time_remaining;
         private HighscoreTable highscoreTable;
         private InputHandler inputHandler;
-        private GameManager gameManager;
         private static string nameText;
-
 
         private void Awake()
         {
             inputHandler = GetComponentInChildren<InputHandler>();
-            gameManager = GetComponentInChildren<GameManager>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
-
             gameEnded = false;
         }
 
@@ -58,42 +54,38 @@ namespace FPSController
             DisplayTime(timeValue);
         }
 
+
         void DisplayTime(float timeToDisplay)
         {
-            if (timeToDisplay < 0)
+            if (timeToDisplay <= 0)
             {
                 timeToDisplay = 0;
                 EndGame();
-
             }
             float minutes = Mathf.FloorToInt(timeToDisplay / 60);
             float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
-            time_remaining.SetText(string.Format("{0:00}:{1:00}", minutes, seconds).ToString());
+            time_remaining.SetText(string.Format("{0:00}:{1:00}", minutes, seconds));
         }
 
         public void EndGame()
         {
+            if (gameEnded) return; // Prevents multiple calls
+
+            gameEnded = true;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            //int score;
 
             InputWindow.Show_Static("Player Name", "", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYWZ", 3, () =>
             {
-
             }, (nameText) =>
             {
-                // OK
-                Debug.Log(nameText);
-                //highscoreTable.AddHighscoreEntry(InputHandler.Score, nameText);
+                Debug.Log("Player Name: " + nameText + " | Score: " + InputHandler.finalScore);
                 score.SaveHighScore(InputHandler.finalScore, nameText);
-                
                 gameOverUI.SetActive(true);
             });
+
             backgroundUI.SetActive(true);
-            gameEnded = true;
-            //gameOverUI.SetActive(true);
-            
         }
 
         public void SetPause(bool paused)
