@@ -290,6 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7252742857052388512}
+  - component: {fileID: 8977508162643854392}
   - component: {fileID: 2957858356052417046}
   - component: {fileID: 7252742857052388527}
   - component: {fileID: 7252742857052388526}
@@ -326,6 +327,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8977508162643854392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252742857052388525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa02a138a31e20141a526a345a4e7d12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heightMusicPairs:
+  - heightThreshold: 0
+    musicClip: {fileID: 8300000, guid: 6833a4729ad32ce479057b74e652edc0, type: 3}
+  - heightThreshold: 35
+    musicClip: {fileID: 8300000, guid: 450a16f666aa2cb43b09c94bece057d1, type: 3}
+  - heightThreshold: 250
+    musicClip: {fileID: 8300000, guid: 583bddcc6511bea4f8adfd65f588da2d, type: 3}
+  fadeDuration: 1
 --- !u!82 &2957858356052417046
 AudioSource:
   m_ObjectHideFlags: 0
