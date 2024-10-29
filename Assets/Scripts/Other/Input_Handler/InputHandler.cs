@@ -40,10 +40,13 @@ namespace FPSController
         [SerializeField] private MovementInputData movementInputData = null;
 
         [Space, Header("UI")]
+        /*
         public TextMeshProUGUI text_sprays_remaining;
         public TextMeshProUGUI textScore;
-
-        public static int Score;
+         */
+        public TMP_Text text_sprays_remaining;
+        public TMP_Text textScore;
+        public int Score = 0;
 
 
         void Awake()
@@ -134,8 +137,8 @@ namespace FPSController
             else
                 movementInputData.CrouchClicked = false;
         }
-
-        private void SprayControl()
+        
+        public void SprayControl()
 {
             if (mouse != null && mouse.leftButton.wasPressedThisFrame && sprayAmount != 0)
         {
@@ -148,32 +151,33 @@ namespace FPSController
                         sprayAmount--;
                         float hitHeight = hit.point.y;
                         int hitHeightInt = Mathf.RoundToInt(hitHeight);
-                        switch (hit.collider.gameObject.tag)
+                          int scoreIncrement = 0;
+
+                    switch (hit.collider.gameObject.tag)
                         {
-                            case "Top":
-                                Score += hitHeightInt *= 40;
-                                spray = topSprayMat;
-                                break;
+                        case "Top":
+                            scoreIncrement = hitHeightInt * 40;
+                            spray = topSprayMat;
+                            break;
+                        case "Middle":
+                            scoreIncrement = hitHeightInt * 20;
+                            spray = midSprayMat;
+                            break;
+                        case "Lower":
+                            scoreIncrement = 10 + (hitHeightInt * 10);
+                            spray = botSprayMat;
+                            break;
+                        case "Special":
+                            scoreIncrement = hitHeightInt * 100;
+                            spray = specSprayMat;
+                            break;
+                    }
 
-                            case "Middle":
-                                Score += hitHeightInt *= 20;
-                                spray = midSprayMat;
-                                break;
+                    UpdateScoreScrolling(Score, Score + scoreIncrement);
+                    Score += scoreIncrement;
 
-                            case "Lower":
-                                Score += 10;
-                                Score += hitHeightInt *= 10;
-                                spray = botSprayMat;
-                                break;
-
-                            case "Special":
-                                Score += hitHeightInt *= 100;
-                                spray = specSprayMat;
-                                break;
-                        }
-                        
-                        // Calculate the rotation to align the decal projector with the wall surface
-                        Quaternion rotation = Quaternion.LookRotation(hit.normal, Vector3.up);
+                    // Calculate the rotation to align the decal projector with the wall surface
+                    Quaternion rotation = Quaternion.LookRotation(hit.normal, Vector3.up);
                         
                         // Flip the rotation horizontally by applying a rotation around the Y-axis
                         rotation *= Quaternion.Euler(0, 180, 0);
@@ -189,6 +193,58 @@ namespace FPSController
                 textScore.SetText("Score: " + Score.ToString());
                 Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * sprayRange, Color.green);
             }
+
+        private void UpdateScoreScrolling(int oldScore, int newScore)
+        {
+            string prefix = "Score: ";
+            string oldScoreStr = oldScore.ToString();
+            string newScoreStr = newScore.ToString();
+
+            // Ensure both strings are the same length for consistent animation
+            int maxLength = Mathf.Max(oldScoreStr.Length, newScoreStr.Length);
+            oldScoreStr = oldScoreStr.PadLeft(maxLength, '0');
+            newScoreStr = newScoreStr.PadLeft(maxLength, '0');
+
+            float minScrollDuration = 2.0f; // Minimum scroll time for each digit
+            float staggeredDelay = 0.2f; // Delay between each digit’s stopping time
+
+            // For each digit, animate from the old digit to the new digit with staggered delays
+            for (int i = 0; i < maxLength; i++)
+            {
+                int startDigit = oldScoreStr[i] - '0';
+                int endDigit = newScoreStr[i] - '0';
+                int index = i; // Capture index for closure in LeanTween callback
+
+                // Add a staggered delay for the stopping time of each digit
+                float totalDuration = minScrollDuration + (i * staggeredDelay);
+
+                // Animate each digit to scroll through random numbers quickly
+                LeanTween.value(gameObject, 0f, 9f, totalDuration)
+                    .setOnUpdate((float val) =>
+                    {
+                // Show a random number between 0-9 during scrolling
+                int randomDigit = Random.Range(0, 10);
+                        char[] scoreArray = (prefix + textScore.text.Substring(prefix.Length)).ToCharArray();
+                        scoreArray[index + prefix.Length] = randomDigit.ToString()[0];
+                        textScore.SetText(new string(scoreArray));
+                    })
+                    .setOnComplete(() =>
+                    {
+                // Once the scrolling ends, set the final digit to its target value
+                char[] scoreArray = (prefix + textScore.text.Substring(prefix.Length)).ToCharArray();
+                        scoreArray[index + prefix.Length] = endDigit.ToString()[0];
+                        textScore.SetText(new string(scoreArray));
+                    })
+                    .setEase(LeanTweenType.easeOutQuad); // Smooth easing for realistic scrolling effect
+            }
+        }
+
+        public static int finalScore; // Static, accessible from anywhere
+
+        private void UpdateScore(int value)
+        {
+            finalScore = value; // Update score as needed
+        }
 
         public void ZoomToggle()
         {

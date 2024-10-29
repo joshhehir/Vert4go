@@ -86,7 +86,7 @@ namespace FPSController
                 // OK
                 Debug.Log(nameText);
                 //highscoreTable.AddHighscoreEntry(InputHandler.Score, nameText);
-                score.SaveHighScore(InputHandler.Score, nameText);
+                score.SaveHighScore(InputHandler.finalScore, nameText);
                 
                 gameOverUI.SetActive(true);
             });

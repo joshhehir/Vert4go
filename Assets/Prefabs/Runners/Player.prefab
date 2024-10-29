@@ -195,13 +195,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heightMusicPairs:
-  - heightThreshold: 0
+  - heightThreshold: -10
     musicClip: {fileID: 8300000, guid: 6833a4729ad32ce479057b74e652edc0, type: 3}
   - heightThreshold: 35
     musicClip: {fileID: 8300000, guid: 450a16f666aa2cb43b09c94bece057d1, type: 3}
   - heightThreshold: 250
     musicClip: {fileID: 8300000, guid: 583bddcc6511bea4f8adfd65f588da2d, type: 3}
-  fadeDuration: 1
+  fadeDuration: 2
+  maxVolume: 1
 --- !u!82 &2953567644534012822
 AudioSource:
   m_ObjectHideFlags: 0

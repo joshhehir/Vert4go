@@ -18,7 +18,7 @@ namespace FPSController
 
         void OnEnable()
         {
-            textScore.text = "Score: " + InputHandler.Score.ToString();
+            textScore.text = "Score: " + InputHandler.finalScore.ToString();
         }
         public void RestartButton()
         {

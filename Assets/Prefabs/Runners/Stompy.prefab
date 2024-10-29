@@ -340,13 +340,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heightMusicPairs:
-  - heightThreshold: 0
+  - heightThreshold: -10
     musicClip: {fileID: 8300000, guid: 6833a4729ad32ce479057b74e652edc0, type: 3}
   - heightThreshold: 35
     musicClip: {fileID: 8300000, guid: 450a16f666aa2cb43b09c94bece057d1, type: 3}
   - heightThreshold: 250
     musicClip: {fileID: 8300000, guid: 583bddcc6511bea4f8adfd65f588da2d, type: 3}
-  fadeDuration: 1
+  fadeDuration: 2
+  maxVolume: 1
 --- !u!82 &2957858356052417046
 AudioSource:
   m_ObjectHideFlags: 0
@@ -805,18 +806,18 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
-  m_GateFitMode: 2
+  m_GateFitMode: 4
   m_FOVAxisMode: 0
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 25
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
   m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 70.41, y: 52.63}
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -826,7 +827,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 300
-  field of view: 80
+  field of view: 120
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
