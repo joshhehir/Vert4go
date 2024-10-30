@@ -14,6 +14,7 @@ namespace FPSController
         private Leaning leaning;
         private Dodge dodge;
         private Slide slide;
+        private GameManager gameManager;
 
         Gamepad gamepad;
         Keyboard keyboard;
@@ -51,6 +52,7 @@ namespace FPSController
 
         void Awake()
         {
+            gameManager = FindObjectOfType<GameManager>();
             fpsController = GetComponent<FirstPersonController>();
             cameraController = GetComponentInChildren<CameraController>();
             leaning = GetComponent<Leaning>();
@@ -74,7 +76,7 @@ namespace FPSController
             gamepad = Gamepad.current;
             keyboard = Keyboard.current;
             mouse = Mouse.current;
-
+            float timeRemaining = gameManager.GetCurrentTimeRemaining();
             //If player is moving slow, forward is not being pressed, or if they hit a wall, automatically stops running.
             if (fpsController.m_currentSpeed <= 0.5f || fpsController.m_inputVector.y < .5f || fpsController.m_hitWall)
             {
@@ -152,23 +154,23 @@ namespace FPSController
                     float hitHeight = hit.point.y;
                     int hitHeightInt = Mathf.RoundToInt(hitHeight);
                     int scoreIncrement = 0;
-
+                    float timeRemaining = gameManager.GetCurrentTimeRemaining();
                     switch (hit.collider.gameObject.tag)
                     {
                         case "Top":
-                            scoreIncrement = hitHeightInt * 40;
+                            scoreIncrement = (hitHeightInt + Mathf.FloorToInt(timeRemaining)) * 40;
                             spray = topSprayMat;
                             break;
                         case "Middle":
-                            scoreIncrement = hitHeightInt * 20;
+                            scoreIncrement = (hitHeightInt + Mathf.FloorToInt(timeRemaining)) * 20;
                             spray = midSprayMat;
                             break;
                         case "Lower":
-                            scoreIncrement = 10 + (hitHeightInt * 10);
+                            scoreIncrement = 10 + (hitHeightInt + Mathf.FloorToInt(timeRemaining)) * 10;
                             spray = botSprayMat;
                             break;
                         case "Special":
-                            scoreIncrement = hitHeightInt * 100;
+                            scoreIncrement = (hitHeightInt + Mathf.FloorToInt(timeRemaining)) * 100;
                             spray = specSprayMat;
                             break;
                     }

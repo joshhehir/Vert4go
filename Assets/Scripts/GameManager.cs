@@ -68,6 +68,11 @@ namespace FPSController
             time_remaining.SetText(string.Format("{0:00}:{1:00}", minutes, seconds));
         }
 
+        public float GetCurrentTimeRemaining()
+        {
+            return timeValue;
+        }
+
         public void EndGame()
         {
             if (gameEnded) return; // Prevents multiple calls
