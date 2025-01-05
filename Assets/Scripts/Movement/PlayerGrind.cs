@@ -107,7 +107,23 @@ public class PlayerGrind : MonoBehaviour
                 else
                 {
                     // Use the tangent direction for horizontal rails
-                    exitDirection = currentRailScript.LocalToWorldConversion(tangent).normalized;
+                    // Get the tangent at the player's current position
+                    Vector3 railTangent = currentRailScript.LocalToWorldConversion(tangent).normalized;
+
+                    // Determine the player's current velocity relative to the rail
+                    Vector3 playerVelocity = playerRigidbody.velocity;
+
+                    // Calculate the dot product to check if the player is moving along or against the rail's tangent
+                    float directionDot = Vector3.Dot(playerVelocity, railTangent);
+
+                    // If the player is moving against the tangent, invert the rail direction
+                    if (directionDot < 0)
+                    {
+                        railTangent = -railTangent;
+                    }
+
+                    // Set the exit direction to the rail tangent
+                    exitDirection = railTangent;
                 }
 
                 // Apply the exit velocity
