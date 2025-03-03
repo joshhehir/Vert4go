@@ -41,6 +41,15 @@ namespace FPSController
         private float defaultJumpSpeed;
         private int jumpCount;
 
+        [Header("Edge Jump Settings")]
+        [SerializeField] private float edgeJumpBoost = 5f;  // Forward boost strength
+        [SerializeField] private float edgeBoostDuration = 0.5f; // Duration for the boost effect
+        [SerializeField] private float edgeCheckDistance = 0.5f; // Distance ahead to check for an edge
+        [SerializeField] private float wallCheckDistance = 1.0f; // Distance to check for walls in front
+        private bool isBoosting = false;
+        private float boostTimer = 0f;
+        private Vector3 boostVelocity;
+
         [Space, Header("Gravity Settings")]
         [SerializeField] public float gravityMultiplier = 2.5f;
         [SerializeField] public float stickToGroundForce = 5f;
@@ -80,6 +89,7 @@ namespace FPSController
         private RaycastHit groundDistanceHit;
         public GameObject groundCheck;
         public LayerMask ignoreLayer;
+
         [SerializeField] [ReadOnly] public float distanceToGround;
         [SerializeField] [ReadOnly] public bool m_isGrounded;
         [SerializeField] [ReadOnly] private bool m_previouslyGrounded;
@@ -125,7 +135,7 @@ namespace FPSController
             wallClimb = GetComponent<WallClimb>();
             slide = GetComponent<Slide>();
             wallRun = GetComponent<WallRun>();
-
+            m_characterController = GetComponent<CharacterController>();
             defaultSmoothFinalDirectionSpeed = smoothFinalDirectionSpeed;
             defaultSmoothRotateSpeed = smoothRotateSpeed;
             defaultJumpSpeed = jumpSpeed;
@@ -532,47 +542,100 @@ namespace FPSController
             }
         }
 
-        
         protected virtual void HandleJump()
         {
-            //If jump was pressed, removes grounded restrictions and automatically sends player move vector upwards.
             if (movementInputData.JumpClicked)
             {
                 jumpCount++;
+
+                // Apply forward boost ONLY if near an edge and NOT facing a wall
+                if (IsNearEdge() && !IsFacingWall())
+                {
+                    isBoosting = true;
+                    boostTimer = 0f;
+                    boostVelocity = transform.forward * edgeJumpBoost;
+                }
+
                 m_finalMoveVector.y = jumpSpeed;
                 m_previouslyGrounded = true;
                 m_isGrounded = false;
             }
         }
+
         protected virtual void ApplyGravity()
         {
-            //CharacterController grounded condition works better than this grounded condition.
-            if (m_characterController.isGrounded) 
+            if (m_characterController.isGrounded)
             {
                 jumpCount = 0;
                 m_inAirTimer = 0f;
                 m_finalMoveVector.y = -stickToGroundForce;
+                isBoosting = false; // Stop boost when grounded
 
                 HandleJump();
             }
-            else //If the player is airborne, inAirTimer counts for landing purposes and gravity is applied.
+            else
             {
                 if (m_inAirTimer <= .1f)
                 {
                     HandleJump();
                 }
+
                 m_inAirTimer += Time.deltaTime;
                 m_finalMoveVector += (Physics.gravity * gravityMultiplier * Time.deltaTime) / bounceFactor;
             }
 
             if (jumpCount < numberOfJumps && !m_characterController.isGrounded)
                 HandleJump();
-                
-            //Changes jump power for additional jumps.
+
+            // Changes jump power for additional jumps.
             if (jumpCount > 0)
                 jumpSpeed = defaultJumpSpeed * extraJumpStrength;
             else
                 jumpSpeed = defaultJumpSpeed;
+
+            ApplyEdgeBoost();
+        }
+
+        private void ApplyEdgeBoost()
+        {
+            if (isBoosting)
+            {
+                // Stop boost if player collides with an object
+                if ((m_characterController.collisionFlags & CollisionFlags.Sides) != 0)
+                {
+                    isBoosting = false;
+                    return;
+                }
+
+                boostTimer += Time.deltaTime;
+                float boostProgress = boostTimer / edgeBoostDuration;
+
+                // Smoothly apply forward force
+                Vector3 smoothBoost = Vector3.Lerp(Vector3.zero, boostVelocity, boostProgress);
+                m_finalMoveVector.x += smoothBoost.x * Time.deltaTime;
+                m_finalMoveVector.z += smoothBoost.z * Time.deltaTime;
+
+                if (boostProgress >= 1f)
+                {
+                    isBoosting = false;
+                }
+            }
+        }
+
+        // Function to check if the player is near an edge
+        private bool IsNearEdge()
+        {
+            Vector3 checkPosition = transform.position + transform.forward * edgeCheckDistance;
+            RaycastHit hit;
+
+            return !Physics.Raycast(checkPosition, Vector3.down, out hit, 1f);
+        }
+
+        // Function to check if the player is facing a wall
+        private bool IsFacingWall()
+        {
+            RaycastHit hit;
+            return Physics.Raycast(transform.position, transform.forward, out hit, wallCheckDistance);
         }
 
         protected virtual void ApplyMovement()

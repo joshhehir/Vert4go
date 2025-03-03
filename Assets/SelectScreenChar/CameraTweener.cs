@@ -171,12 +171,13 @@ public class TargetSwitcher : MonoBehaviour
             {
                 initialTargetLocked = true;
             }
+           
         }
     }
 
     private void SwitchCharacter(int direction)
     {
-        characters[selectedCharacter].SetActive(false);
+       // characters[selectedCharacter].SetActive(false);
         selectedCharacter = (selectedCharacter + direction + characters.Length) % characters.Length;
         characters[selectedCharacter].SetActive(true);
     }

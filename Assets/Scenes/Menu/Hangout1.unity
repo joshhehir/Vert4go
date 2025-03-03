@@ -537,7 +537,9 @@ MonoBehaviour:
   m_text: 'Bar Lady
 
 
-    Middle Class'
+    Middle Class
+
+    Player'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -881,10 +883,9 @@ MonoBehaviour:
   - {fileID: 2063419462}
   currentScene: 2
   characters:
-  - {fileID: 7252742857052388525, guid: a47d894295fd980459fe8354c9a3a618, type: 3}
+  - {fileID: 1351525359688574210, guid: 148aa4c74d1ca894293dd435e6cfba2b, type: 3}
   - {fileID: 7252742857052388525, guid: 4eaf4a10acb77134cbb7f10d319e479b, type: 3}
   - {fileID: 7252742857052388525, guid: 9bc09d6c00021a346b9000371e74fd57, type: 3}
-  - {fileID: 1351525359688574210, guid: 148aa4c74d1ca894293dd435e6cfba2b, type: 3}
   selectedCharacter: 0
   switchLeft:
     m_Name: Switch Left
@@ -3501,7 +3502,9 @@ MonoBehaviour:
   m_text: 'Tiny Dancer
 
 
-    Loves to get down'
+    Loves to get down
+
+    Stompy'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4339,7 +4342,9 @@ MonoBehaviour:
   m_text: 'Big Johnno
 
 
-    Mayor of boogie town'
+    Mayor of boogie town
+
+    Halo'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

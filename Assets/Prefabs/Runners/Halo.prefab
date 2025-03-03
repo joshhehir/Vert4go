@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 521928301886339004}
   - component: {fileID: 7554944122877960209}
   - component: {fileID: 6362164531306868811}
+  - component: {fileID: -6314198979356263300}
   m_Layer: 7
   m_Name: Halo
   m_TagString: Player
@@ -580,6 +581,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   extraJumpStrength: 0.8
   numberOfJumps: 2
+  edgeJumpBoost: 500
+  edgeBoostDuration: 2
+  edgeCheckDistance: 0.5
+  wallCheckDistance: 1
   gravityMultiplier: 2
   stickToGroundForce: 1
   groundLayer:
@@ -759,6 +764,26 @@ MonoBehaviour:
   dodgeDuration: 0.2
   dodgeCooldown: 2
   isDodging: 0
+--- !u!114 &-6314198979356263300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252742857052388525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e294f9d6f4e8d964aa84f2a13b8be0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump: 0
+  input: {x: 0, y: 0, z: 0}
+  gravity: 9.8
+  grindSpeed: 50
+  heightOffset: 1
+  lerpSpeed: 10
+  currentRailScript: {fileID: 0}
+  jumpForce: 5
 --- !u!1 &7252742857163636786
 GameObject:
   m_ObjectHideFlags: 0
